@@ -4,13 +4,14 @@
 #
 Name     : perl-Email-MIME-Encodings
 Version  : 1.315
-Release  : 1
+Release  : 2
 URL      : https://cpan.metacpan.org/authors/id/R/RJ/RJBS/Email-MIME-Encodings-1.315.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/R/RJ/RJBS/Email-MIME-Encodings-1.315.tar.gz
 Summary  : 'A unified interface to MIME encoding and decoding'
 Group    : Development/Tools
-License  : Artistic-1.0-Perl
-Requires: perl-Email-MIME-Encodings-man
+License  : Artistic-1.0 Artistic-1.0-Perl GPL-1.0
+Requires: perl-Email-MIME-Encodings-license = %{version}-%{release}
+BuildRequires : buildreq-cpan
 BuildRequires : perl(Capture::Tiny)
 
 %description
@@ -18,12 +19,21 @@ This archive contains the distribution Email-MIME-Encodings,
 version 1.315:
 A unified interface to MIME encoding and decoding
 
-%package man
-Summary: man components for the perl-Email-MIME-Encodings package.
+%package dev
+Summary: dev components for the perl-Email-MIME-Encodings package.
+Group: Development
+Provides: perl-Email-MIME-Encodings-devel = %{version}-%{release}
+
+%description dev
+dev components for the perl-Email-MIME-Encodings package.
+
+
+%package license
+Summary: license components for the perl-Email-MIME-Encodings package.
 Group: Default
 
-%description man
-man components for the perl-Email-MIME-Encodings package.
+%description license
+license components for the perl-Email-MIME-Encodings package.
 
 
 %prep
@@ -51,10 +61,12 @@ make TEST_VERBOSE=1 test
 
 %install
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/perl-Email-MIME-Encodings
+cp LICENSE %{buildroot}/usr/share/package-licenses/perl-Email-MIME-Encodings/LICENSE
 if test -f Makefile.PL; then
-make pure_install PERL_INSTALL_ROOT=%{buildroot}
+make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
-./Build install --installdirs=site --destdir=%{buildroot}
+./Build install --installdirs=vendor --destdir=%{buildroot}
 fi
 find %{buildroot} -type f -name .packlist -exec rm -f {} ';'
 find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null ';'
@@ -63,8 +75,12 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/site_perl/5.26.1/Email/MIME/Encodings.pm
+/usr/lib/perl5/vendor_perl/5.26.1/Email/MIME/Encodings.pm
 
-%files man
+%files dev
 %defattr(-,root,root,-)
 /usr/share/man/man3/Email::MIME::Encodings.3
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/perl-Email-MIME-Encodings/LICENSE

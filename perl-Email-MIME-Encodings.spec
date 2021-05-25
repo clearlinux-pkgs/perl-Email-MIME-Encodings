@@ -4,7 +4,7 @@
 #
 Name     : perl-Email-MIME-Encodings
 Version  : 1.315
-Release  : 19
+Release  : 20
 URL      : https://cpan.metacpan.org/authors/id/R/RJ/RJBS/Email-MIME-Encodings-1.315.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/R/RJ/RJBS/Email-MIME-Encodings-1.315.tar.gz
 Summary  : 'A unified interface to MIME encoding and decoding'
